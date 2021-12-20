@@ -13,9 +13,9 @@ public struct Equation
     public enum Operator
     {
         Plus,
-        Min,
-        Keer,
-        GedeeldDoor
+        Minus,
+        Multiply,
+        Divide
     }
 
     public Equation(int number1, Operator op, int number2, int answer)
@@ -34,15 +34,15 @@ public struct Equation
                 {
                     return Number1 + Number2;
                 }
-            case Operator.Min:
+            case Operator.Minus:
                 {
                     return Number1 - Number2;
                 }
-            case Operator.Keer:
+            case Operator.Multiply:
                 {
                     return Number1 * Number2;
                 }
-            case Operator.GedeeldDoor:
+            case Operator.Divide:
                 {
                     if (Number2 == 0)
                     {
@@ -58,28 +58,28 @@ public struct Equation
 
     public override string ToString()
     {
-        string antwoord = "";
+        string output = "";
         switch (_Operator)
         {
             case Operator.Plus:
-                antwoord = Number1 + " + " + Number2 + " = " + Equals();
+                output = Number1 + " + " + Number2 + " = " + Equals();
                 break;
             case Operator.Minus:
-                antwoord = Number1 + " - " + Number2 + " = " + Equals();
+                output = Number1 + " - " + Number2 + " = " + Equals();
                 break;
             case Operator.Multiply:
-                antwoord = Number1 + " x " + Number2 + " = " + Equals();
+                output = Number1 + " x " + Number2 + " = " + Equals();
                 break;
             case Operator.Divide:
                 if (Number2 == 0)
                 {
-                    antwoord = "Je kan niet delen door 0";
+                    output = "Je kan niet delen door 0";
                 }
                 else
-                    antwoord = Number1 + " / " + Number2 + " = " + Equals();
+                    output = Number1 + " / " + Number2 + " = " + Equals();
                 break;
         }
 
-        return antwoord;
+        return output;
     }
 }
