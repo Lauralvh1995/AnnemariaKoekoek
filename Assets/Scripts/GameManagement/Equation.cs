@@ -5,10 +5,11 @@ using UnityEngine;
 [System.Serializable]
 public struct Equation
 {
-    public int number1;
-    public Operator _operator;
-    public int number2;
-    
+    public int Number1;
+    public Operator _Operator;
+    public int Number2;
+    public int Answer;
+
     public enum Operator
     {
         Plus,
@@ -17,64 +18,65 @@ public struct Equation
         GedeeldDoor
     }
 
-    public Equation(int number1, Operator op, int number2)
+    public Equation(int number1, Operator op, int number2, int answer)
     {
-        this.number1 = number1;
-        _operator = op;
-        this.number2 = number2;
+        this.Number1 = number1;
+        _Operator = op;
+        this.Number2 = number2;
+        this.Answer = answer;
     }
 
-    public float Equals()
+    public int Equals()
     {
-        switch (_operator)
+        switch (_Operator)
         {
             case Operator.Plus:
                 {
-                    return number1 + number2;
+                    return Number1 + Number2;
                 }
             case Operator.Min:
                 {
-                    return number1 - number2;
+                    return Number1 - Number2;
                 }
             case Operator.Keer:
                 {
-                    return number1 * number2;
+                    return Number1 * Number2;
                 }
             case Operator.GedeeldDoor:
                 {
-                    if (number2 == 0)
+                    if (Number2 == 0)
                     {
                         Debug.LogError("NIET DELEN DOOR 0");
-                        return 0f;
+                        return 0;
                     }
-                    return (float)number1 / (float)number2;
+                    return Number1 / Number2;
                 }
         }
         Debug.LogWarning("Geen antwoord");
-        return 0f;
+        return 0;
     }
 
     public override string ToString()
     {
         string antwoord = "";
-        switch (_operator)
+        switch (_Operator)
         {
             case Operator.Plus:
-                antwoord = number1 + " + " + number2 + " = " + Equals();
+                antwoord = Number1 + " + " + Number2 + " = " + Equals();
                 break;
-            case Operator.Min:
-                antwoord = number1 + " - " + number2 + " = " + Equals();
+            case Operator.Minus:
+                antwoord = Number1 + " - " + Number2 + " = " + Equals();
                 break;
-            case Operator.Keer:
-                antwoord = number1 + " x " + number2 + " = " + Equals();
+            case Operator.Multiply:
+                antwoord = Number1 + " x " + Number2 + " = " + Equals();
                 break;
-            case Operator.GedeeldDoor:
-                if (number2 == 0)
+            case Operator.Divide:
+                if (Number2 == 0)
                 {
                     antwoord = "Je kan niet delen door 0";
                 }
                 else
-                    antwoord = number1 + " / " + number2 + " = " + Equals();
+                    antwoord = Number1 + " / " + Number2 + " = " + Equals();
                 break;
         }
 
