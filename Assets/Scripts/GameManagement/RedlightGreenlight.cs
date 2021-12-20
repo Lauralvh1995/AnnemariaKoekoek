@@ -7,18 +7,20 @@ using Photon.Pun;
 public class RedlightGreenlight : MonoBehaviourPun
 {
     private float stateTimer;
-    [SerializeField ]private Equation currentEquation;
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private Equation currentEquation;
 
     //TODO replace this preset list with randomisation
     private List<Equation> tempEquations = new List<Equation>()
     {
-        new Equation(1, Equation.Operator.Multiply, 1),
-        new Equation(2, Equation.Operator.Multiply, 3),
-        new Equation(4, Equation.Operator.Multiply, 5),
-        new Equation(6, Equation.Operator.Multiply, 7),
+        new Equation(1, Equation.Operator.Plus, 1),
+        new Equation(2, Equation.Operator.Min, 3),
+        new Equation(4, Equation.Operator.Keer, 5),
+        new Equation(6, Equation.Operator.GedeeldDoor, 7),
     };
 
     private int currentEquationIndex = 0;
+
 
     private void Update()
     {
@@ -52,7 +54,17 @@ public class RedlightGreenlight : MonoBehaviourPun
     {
         currentEquation = new Equation(number1, _operator, number2);
 
-        //TODO say the sum out loud
+        string textToSpeak = number1.ToString() + _operator.ToString() + number2.ToString();
+        StartCoroutine(CallTextToSpeech(textToSpeak));
     }
-    
+
+    private IEnumerator CallTextToSpeech(string spokenText)
+    {
+        string url = "https://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=" + spokenText + "&tl=Nl";
+        WWW www = new WWW(url);
+        yield return www;
+        audioSource.clip = www.GetAudioClip(false, true, AudioType.MPEG);
+        audioSource.Play();
+    }
+
 }

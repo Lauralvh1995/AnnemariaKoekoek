@@ -12,9 +12,9 @@ public struct Equation
     public enum Operator
     {
         Plus,
-        Minus,
-        Multiply,
-        Divide
+        Min,
+        Keer,
+        GedeeldDoor
     }
 
     public Equation(int number1, Operator op, int number2)
@@ -32,15 +32,15 @@ public struct Equation
                 {
                     return number1 + number2;
                 }
-            case Operator.Minus:
+            case Operator.Min:
                 {
                     return number1 - number2;
                 }
-            case Operator.Multiply:
+            case Operator.Keer:
                 {
                     return number1 * number2;
                 }
-            case Operator.Divide:
+            case Operator.GedeeldDoor:
                 {
                     if (number2 == 0)
                     {
@@ -62,13 +62,13 @@ public struct Equation
             case Operator.Plus:
                 antwoord = number1 + " + " + number2 + " = " + Equals();
                 break;
-            case Operator.Minus:
+            case Operator.Min:
                 antwoord = number1 + " - " + number2 + " = " + Equals();
                 break;
-            case Operator.Multiply:
+            case Operator.Keer:
                 antwoord = number1 + " x " + number2 + " = " + Equals();
                 break;
-            case Operator.Divide:
+            case Operator.GedeeldDoor:
                 if (number2 == 0)
                 {
                     antwoord = "Je kan niet delen door 0";
