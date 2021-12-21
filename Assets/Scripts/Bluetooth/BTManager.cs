@@ -36,11 +36,13 @@ namespace Bluetooth
         private bool monitoring;
         private bool advertising;
         private List<Advertiser> advertisers = new List<Advertiser>();
+        private AdvertiserType advertiserType;
 
         private Color originalBackgroundColor;
         BluetoothHelper.BtConnections connectionObject;
         BluetoothHelper.BtConnection activeConnection;
 
+        [SerializeField] NetworkManager networkManager;
         [SerializeField] Image background;
         [SerializeField] GameObject popupDialog;
         [SerializeField] GameObject scrollableContent;
@@ -56,7 +58,9 @@ namespace Bluetooth
 
         public void StartAdvertising(AdvertiserType type)
         {
+            networkManager.Play();
             advertising = true;
+            advertiserType = type;
             StartCoroutine(AdvertisingRoutine());
             debugText.gameObject.SetActive(true);
         }
@@ -69,6 +73,7 @@ namespace Bluetooth
 
         public void StartMonitoring()
         {
+            networkManager.Play();
             monitoring = true;
 
             originalBackgroundColor = Color.white;
@@ -147,8 +152,8 @@ namespace Bluetooth
                 {
                     string advertiserId = bluetoothHelper.StartAdvertising();
                     debugText.text = advertiserId;
-                    // TODO: Add support for both start and finish types
-                    photonView.RPC("ReceiveIDHost", RpcTarget.MasterClient, advertiserId, AdvertiserType.Start);
+
+                    photonView.RPC("ReceiveIDHost", RpcTarget.MasterClient, advertiserId, (int)advertiserType);
                 }
                 yield return null;
             }
@@ -156,7 +161,6 @@ namespace Bluetooth
 
         private BluetoothHelper.BtConnections GetAdvertisers()
         {
-            // TODO: Get all advertiser IDs from other players.
 
             BluetoothHelper.BtConnections connectionsObject = new BluetoothHelper.BtConnections();
 
@@ -180,20 +184,20 @@ namespace Bluetooth
         }
 
         [PunRPC]
-        private void ReceiveIDHost(string ID, AdvertiserType type)
+        private void ReceiveIDHost(string ID, int type)
         {
-            Advertiser newAdvertiser = new Advertiser(ID, type);
+            Advertiser newAdvertiser = new Advertiser(ID, (AdvertiserType)type);
             if (!advertisers.Contains(newAdvertiser))
             {
                 advertisers.Add(newAdvertiser);
 
                 string[] IDs = new string[advertisers.Count];
-                AdvertiserType[] types = new AdvertiserType[advertisers.Count];
+                int[] types = new int[advertisers.Count];
 
                 for (int i = 0; i < advertisers.Count; i++)
                 {
                     IDs[i] = advertisers[i].ID;
-                    types[i] = advertisers[i].type;
+                    types[i] = (int)advertisers[i].type;
                 }
 
                 photonView.RPC("ReceiveIDsClient", RpcTarget.Others, ID, types);
@@ -201,12 +205,12 @@ namespace Bluetooth
         }
 
         [PunRPC]
-        private void ReceiveIDsClient(string[] IDs, AdvertiserType[] types)
+        private void ReceiveIDsClient(string[] IDs, int[] types)
         {
             List<Advertiser> newAdvertisers = new List<Advertiser>();
             for (int i = 0; i < IDs.Length; i++)
             {
-                newAdvertisers.Add(new Advertiser(IDs[i], types[i]));
+                newAdvertisers.Add(new Advertiser(IDs[i], (AdvertiserType)types[i]));
             }
 
             foreach (Advertiser a in newAdvertisers)

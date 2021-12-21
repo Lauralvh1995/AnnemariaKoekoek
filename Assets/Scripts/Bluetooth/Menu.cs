@@ -45,12 +45,20 @@ public class Menu : MonoBehaviour
         btManager.StartMonitoring();
     }
 
-    public void GoalDeviceStart()
+    public void StartPoint()
     {
         DisableMenuButtons();
 
         Debug.Log("Started advertising");
-        btManager.StartAdvertising();
+        btManager.StartAdvertising(AdvertiserType.Start);
+    }
+
+    public void EndPoint()
+    {
+        DisableMenuButtons();
+
+        Debug.Log("Started advertising");
+        btManager.StartAdvertising(AdvertiserType.Finish);
     }
 
     public void Back()
