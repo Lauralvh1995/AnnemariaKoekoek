@@ -5,15 +5,37 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Pun;
+using Photon.Realtime;
 
-namespace Bluetooth {
-    public class BTManager : MonoBehaviour
+namespace Bluetooth
+{
+
+    public struct Advertiser
+    {
+        public Advertiser(string ID, AdvertiserType type)
+        {
+            this.ID = ID;
+            this.type = type;
+        }
+
+        public string ID;
+        public AdvertiserType type;
+    }
+
+    public enum AdvertiserType
+    {
+        Start,
+        Finish
+    }
+
+    public class BTManager : MonoBehaviourPun
     {
         private BluetoothHelper bluetoothHelper;
         private float elapsedTime = 0;
         private bool monitoring;
         private bool advertising;
-        private List<string> advertiserIds = new List<string>();
+        private List<Advertiser> advertisers = new List<Advertiser>();
 
         private Color originalBackgroundColor;
         BluetoothHelper.BtConnections connectionObject;
@@ -27,13 +49,12 @@ namespace Bluetooth {
 
         private Dictionary<string, GameObject> connectionButtons = new Dictionary<string, GameObject>();
 
-
         private void Start()
         {
             bluetoothHelper = new BluetoothHelper();
         }
 
-        public void StartAdvertising()
+        public void StartAdvertising(AdvertiserType type)
         {
             advertising = true;
             StartCoroutine(AdvertisingRoutine());
@@ -126,7 +147,8 @@ namespace Bluetooth {
                 {
                     string advertiserId = bluetoothHelper.StartAdvertising();
                     debugText.text = advertiserId;
-                    // TODO: Share ID with players.
+                    // TODO: Add support for both start and finish types
+                    photonView.RPC("ReceiveIDHost", RpcTarget.MasterClient, advertiserId, AdvertiserType.Start);
                 }
                 yield return null;
             }
@@ -138,9 +160,9 @@ namespace Bluetooth {
 
             BluetoothHelper.BtConnections connectionsObject = new BluetoothHelper.BtConnections();
 
-            foreach(string id in advertiserIds)
+            foreach (Advertiser advertiser in advertisers)
             {
-                BluetoothHelper.BtConnection connection = bluetoothHelper.GetBluetoothDeviceByID(id);
+                BluetoothHelper.BtConnection connection = bluetoothHelper.GetBluetoothDeviceByID(advertiser.ID);
                 if (connection != null) connectionsObject.connections.Add(connection);
             }
 
@@ -155,6 +177,45 @@ namespace Bluetooth {
         public bool IsMonitoring()
         {
             return monitoring;
+        }
+
+        [PunRPC]
+        private void ReceiveIDHost(string ID, AdvertiserType type)
+        {
+            Advertiser newAdvertiser = new Advertiser(ID, type);
+            if (!advertisers.Contains(newAdvertiser))
+            {
+                advertisers.Add(newAdvertiser);
+
+                string[] IDs = new string[advertisers.Count];
+                AdvertiserType[] types = new AdvertiserType[advertisers.Count];
+
+                for (int i = 0; i < advertisers.Count; i++)
+                {
+                    IDs[i] = advertisers[i].ID;
+                    types[i] = advertisers[i].type;
+                }
+
+                photonView.RPC("ReceiveIDsClient", RpcTarget.Others, ID, types);
+            }
+        }
+
+        [PunRPC]
+        private void ReceiveIDsClient(string[] IDs, AdvertiserType[] types)
+        {
+            List<Advertiser> newAdvertisers = new List<Advertiser>();
+            for (int i = 0; i < IDs.Length; i++)
+            {
+                newAdvertisers.Add(new Advertiser(IDs[i], types[i]));
+            }
+
+            foreach (Advertiser a in newAdvertisers)
+            {
+                if (!advertisers.Contains(a))
+                {
+                    advertisers.Add(a);
+                }
+            }
         }
     }
 }
