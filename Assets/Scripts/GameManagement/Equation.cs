@@ -26,15 +26,15 @@ public struct Equation
                 {
                     return number1 + number2;
                 }
-            case Operator.Min:
+            case Operator.Minus:
                 {
                     return number1 - number2;
                 }
-            case Operator.Keer:
+            case Operator.Multiply:
                 {
                     return number1 * number2;
                 }
-            case Operator.GedeeldDoor:
+            case Operator.Divide:
                 {
                     if (number2 == 0)
                     {
@@ -56,13 +56,13 @@ public struct Equation
             case Operator.Plus:
                 antwoord = number1 + " + " + number2 + " = " + Equals();
                 break;
-            case Operator.Min:
+            case Operator.Minus:
                 antwoord = number1 + " - " + number2 + " = " + Equals();
                 break;
-            case Operator.Keer:
+            case Operator.Multiply:
                 antwoord = number1 + " x " + number2 + " = " + Equals();
                 break;
-            case Operator.GedeeldDoor:
+            case Operator.Divide:
                 if (number2 == 0)
                 {
                     antwoord = "Je kan niet delen door 0";
