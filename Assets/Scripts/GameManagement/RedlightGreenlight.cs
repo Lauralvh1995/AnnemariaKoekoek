@@ -7,6 +7,7 @@ using Photon.Pun;
 public class RedlightGreenlight : MonoBehaviourPun
 {
     private float stateTimer;
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private EquationController equationController;
     [SerializeField] private Equation currentEquation;
 
@@ -37,7 +38,17 @@ public class RedlightGreenlight : MonoBehaviourPun
     {
         currentEquation = new Equation(number1, _operator, number2);
 
-        //TODO say the sum out loud
+        string textToSpeak = number1.ToString() + _operator.ToString() + number2.ToString();
+        StartCoroutine(CallTextToSpeech(textToSpeak));
     }
-    
+
+    private IEnumerator CallTextToSpeech(string spokenText)
+    {
+        string url = "https://translate.google.com/translate_tts?ie=UTF-8&total=1&idx=0&textlen=32&client=tw-ob&q=" + spokenText + "&tl=Nl";
+        WWW www = new WWW(url);
+        yield return www;
+        audioSource.clip = www.GetAudioClip(false, true, AudioType.MPEG);
+        audioSource.Play();
+    }
+
 }
