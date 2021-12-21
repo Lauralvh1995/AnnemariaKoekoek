@@ -9,13 +9,7 @@ public struct Equation
     public Operator _operator;
     public int number2;
     
-    public enum Operator
-    {
-        Plus,
-        Minus,
-        Multiply,
-        Divide
-    }
+    
 
     public Equation(int number1, Operator op, int number2)
     {
@@ -80,4 +74,11 @@ public struct Equation
 
         return antwoord;
     }
+}
+public enum Operator
+{
+    Plus,
+    Minus,
+    Multiply,
+    Divide
 }

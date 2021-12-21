@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &264657850
+--- !u!1 &229067241
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,8 +131,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 264657852}
-  - component: {fileID: 264657851}
+  - component: {fileID: 229067242}
+  - component: {fileID: 229067244}
+  - component: {fileID: 229067243}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -140,28 +141,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &264657851
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 264657850}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2e9c9f969fbc1a340a16317b7111854e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentAcceleration: {x: 0, y: 0, z: 0}
-  previousAcceleration: {x: 0, y: 0, z: 0}
-  currentMagnitude: 0
---- !u!4 &264657852
+--- !u!4 &229067242
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 264657850}
+  m_GameObject: {fileID: 229067241}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -169,6 +155,41 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &229067243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229067241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a65f062ba009158458ae6270f259da6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleTables:
+  - {fileID: 229067244}
+  currentEquation:
+    number1: 0
+    _operator: 0
+    number2: 0
+  correctAnswer: 0
+  currentCheckAnswer: 0
+  possibleAnswers: []
+--- !u!114 &229067244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229067241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa18600143fa60848b6fd71787377bd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseNumber: 2
+  equations: []
 --- !u!1 &653260035
 GameObject:
   m_ObjectHideFlags: 0

@@ -7,18 +7,8 @@ using Photon.Pun;
 public class RedlightGreenlight : MonoBehaviourPun
 {
     private float stateTimer;
-    [SerializeField ]private Equation currentEquation;
-
-    //TODO replace this preset list with randomisation
-    private List<Equation> tempEquations = new List<Equation>()
-    {
-        new Equation(1, Equation.Operator.Multiply, 1),
-        new Equation(2, Equation.Operator.Multiply, 3),
-        new Equation(4, Equation.Operator.Multiply, 5),
-        new Equation(6, Equation.Operator.Multiply, 7),
-    };
-
-    private int currentEquationIndex = 0;
+    [SerializeField] private EquationController equationController;
+    [SerializeField] private Equation currentEquation;
 
     private void Update()
     {
@@ -34,13 +24,8 @@ public class RedlightGreenlight : MonoBehaviourPun
                 stateTimer = 0;
 
                 //This loops through the preset equations. Use a randomiser instead asap
-                currentEquationIndex++;
-                if (currentEquationIndex >= tempEquations.Count)
-                {
-                    currentEquationIndex = 0;
-                }
 
-                Equation eq = tempEquations[currentEquationIndex];
+                Equation eq = equationController.SetUpNewEquation();
 
                 photonView.RPC("UpdateEquation", RpcTarget.All, eq.number1, eq._operator, eq.number2);
             }
@@ -48,7 +33,7 @@ public class RedlightGreenlight : MonoBehaviourPun
     }
 
     [PunRPC]
-    private void UpdateEquation(int number1, Equation.Operator _operator, int number2)
+    private void UpdateEquation(int number1, Operator _operator, int number2)
     {
         currentEquation = new Equation(number1, _operator, number2);
 
