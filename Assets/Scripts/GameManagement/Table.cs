@@ -22,7 +22,7 @@ public class Table : MonoBehaviour
         equations.Clear();
         for(int i = 1; i < 11; i++)
         {
-            equations.Add(new Equation(i, Operator.Multiply, basis));
+            equations.Add(new Equation(i, Equation.Operator.Multiply, basis, i * basis));
         }
     }
 
