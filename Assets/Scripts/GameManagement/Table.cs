@@ -1,15 +1,22 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Table : MonoBehaviour
 {
     [SerializeField, Range(0,10)] int baseNumber = 2;
     [SerializeField] List<Equation> equations;
 
+    [SerializeField] SetupTableEvent setupEvent;
     private void Awake()
     {
         Refresh();
+    }
+    private void OnEnable()
+    {
+        setupEvent.Invoke(this);
     }
 
     public void Refresh()
@@ -30,4 +37,9 @@ public class Table : MonoBehaviour
     {
         return equations;
     }
+}
+[Serializable]
+public class SetupTableEvent : UnityEvent<Table>
+{
+
 }

@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class EquationController : MonoBehaviour
 {
     [SerializeField] private List<Table> possibleTables;
+    [SerializeField] private Table currentTable;
 
     [SerializeField] private Equation currentEquation;
     [SerializeField] private float correctAnswer;
@@ -14,20 +15,32 @@ public class EquationController : MonoBehaviour
 
     [SerializeField] private List<float> possibleAnswers;
 
-    private void Start()
+    public void AddTableToList(Table table)
     {
+        possibleTables.Add(table);
+        ChangeTable(possibleTables[0]);
         SetUpNewEquation();
     }
-    public Equation SetUpNewEquation()
+    
+    public void ClearTableList()
     {
-        Table t = possibleTables[UnityEngine.Random.Range(0, possibleTables.Count)];
-        currentEquation = t.GetTable()[UnityEngine.Random.Range(0, t.GetTable().Count)];
-        correctAnswer = currentEquation.Equals();
+        possibleTables.Clear();
+    }
+
+    public void ChangeTable(Table table)
+    {
+        currentTable = table;
         possibleAnswers.Clear();
-        foreach (Equation s in t.GetTable())
+        foreach (Equation s in currentTable.GetTable())
         {
             possibleAnswers.Add(s.Equals());
         }
+    }
+    public Equation SetUpNewEquation()
+    {
+        ChangeTable(possibleTables[UnityEngine.Random.Range(0,possibleTables.Count)]);
+        currentEquation = currentTable.GetTable()[UnityEngine.Random.Range(0, currentTable.GetTable().Count)];
+        correctAnswer = currentEquation.Equals();
         //Debug.Log("Current question: " + currentSum.ToString() + "  " + correctAnswer);
         UpdateAnswerToCheck();
 
