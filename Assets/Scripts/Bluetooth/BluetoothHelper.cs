@@ -90,8 +90,8 @@ namespace Bluetooth {
                 BtConnections connections = JsonUtility.FromJson<BtConnections>(result);
 
                 return connections;
-            }
-            Debug.LogWarning("Wrong platform");
+        }
+        Debug.LogWarning("Wrong platform");
             return new BtConnections();
         }
 
@@ -99,13 +99,17 @@ namespace Bluetooth {
         {
             if (Application.platform == RuntimePlatform.Android)
             {
+                BtConnection connection;
                 string result = pluginInstance.Call<string>("getDiscoveredBluetoothDeviceByID", id);
-                BtConnection connection = JsonUtility.FromJson<BtConnection>(result);
-
+                if (!result.Equals("{}"))
+                {
+                    connection = JsonUtility.FromJson<BtConnection>(result);
+                }
+                else return null;
                 return connection;
 
-            }
-            Debug.LogWarning("Wrong platform");
+        }
+        Debug.LogWarning("Wrong platform");
             return null;
         }
 

@@ -44,7 +44,6 @@ namespace Bluetooth
 
         [SerializeField] NetworkManager networkManager;
         [SerializeField] Image background;
-        [SerializeField] GameObject popupDialog;
         [SerializeField] GameObject scrollableContent;
         [SerializeField] TMP_Text debugText;
         [SerializeField] GameObject deviceButtonPrefab;
@@ -167,7 +166,11 @@ namespace Bluetooth
             foreach (Advertiser advertiser in advertisers)
             {
                 BluetoothHelper.BtConnection connection = bluetoothHelper.GetBluetoothDeviceByID(advertiser.ID);
-                if (connection != null) connectionsObject.connections.Add(connection);
+                if (connection != null)
+                {
+                    connectionsObject.connections.Add(connection);
+                    Debug.Log(connection.name + " - " + connection.distance);
+                }
             }
 
             return connectionsObject;
@@ -198,6 +201,7 @@ namespace Bluetooth
                 {
                     IDs[i] = advertisers[i].ID;
                     types[i] = (int)advertisers[i].type;
+                    Debug.Log(IDs[i]);
                 }
 
                 photonView.RPC("ReceiveIDsClient", RpcTarget.Others, ID, types);
@@ -211,6 +215,7 @@ namespace Bluetooth
             for (int i = 0; i < IDs.Length; i++)
             {
                 newAdvertisers.Add(new Advertiser(IDs[i], (AdvertiserType)types[i]));
+                Debug.Log(IDs[i]);
             }
 
             foreach (Advertiser a in newAdvertisers)
