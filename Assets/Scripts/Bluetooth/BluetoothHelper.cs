@@ -20,6 +20,7 @@ namespace Bluetooth {
             public string distance;
             public bool accurate;
             public string updateRate;
+            public string uuid;
 
 
             public override string ToString()

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0.99999905, b: 0.99999905, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -949,7 +949,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 781230233}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25eec71f0c42f9541832e92e841bb690, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e3036f57fd1df8468107ae779a29e15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &799286640
@@ -1180,14 +1180,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 888890211}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 221925eacfabd604fb82ca310dd594a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 717dc8270d14d034eba41e3e94f1c1e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   networkManager: {fileID: 781230235}
   background: {fileID: 711420227}
   scrollableContent: {fileID: 802011273}
   debugText: {fileID: 687142331}
-  deviceButtonPrefab: {fileID: 7077959758303567494, guid: 88ab76444ab99d04287cf8010ad63ecf, type: 3}
+  deviceButtonPrefab: {fileID: 7077959758303567494, guid: f555191ede758c0498180d47ee6cbf19, type: 3}
 --- !u!4 &888890213
 Transform:
   m_ObjectHideFlags: 0
@@ -2075,7 +2075,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2124796084}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0623d71558a4e5144adda01725e62c02, type: 3}
+  m_Script: {fileID: 11500000, guid: c4a523bc2097fb7468ee6b5cab7e2d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   btManager: {fileID: 888890212}

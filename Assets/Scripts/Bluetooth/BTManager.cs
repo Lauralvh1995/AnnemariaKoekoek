@@ -138,6 +138,11 @@ namespace Bluetooth
                     yield return null;
                 }
             }
+            if (!monitoring)
+            {
+                activeConnection = bluetoothHelper.GetBluetoothDeviceByID(activeConnection.uuid);
+                debugText.text = activeConnection.ToString();
+            }
         }
 
         private IEnumerator AdvertisingRoutine()
