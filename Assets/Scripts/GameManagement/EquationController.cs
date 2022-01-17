@@ -42,14 +42,28 @@ public class EquationController : MonoBehaviour
         currentEquation = currentTable.GetTable()[UnityEngine.Random.Range(0, currentTable.GetTable().Count)];
         correctAnswer = currentEquation.Equals();
         //Debug.Log("Current question: " + currentSum.ToString() + "  " + correctAnswer);
-        UpdateAnswerToCheck();
 
+        if(UnityEngine.Random.Range(0, 2) == 1)
+        {
+            RandomiseAnswer();
+        }
+        else
+        {
+            CorrectAnswer();
+        }
+        
         return currentEquation;
     }
 
-    public void UpdateAnswerToCheck()
+    public void CorrectAnswer()
     {
-        currentCheckAnswer = possibleAnswers[UnityEngine.Random.Range(0, possibleAnswers.Count)];
+        currentEquation.Answer = currentEquation.Equals();
+    }
+
+    public void RandomiseAnswer()
+    {
+        //currentCheckAnswer = possibleAnswers[UnityEngine.Random.Range(0, possibleAnswers.Count)];
+        currentEquation.Answer = Convert.ToInt32(possibleAnswers[UnityEngine.Random.Range(0, possibleAnswers.Count)]);
         //Debug.Log("Checking: "+ currentCheckAnswer);
     }
 }

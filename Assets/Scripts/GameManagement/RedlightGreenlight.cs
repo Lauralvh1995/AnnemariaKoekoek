@@ -4,29 +4,36 @@ using UnityEngine;
 using UnityEngine.UI;
 using Photon.Pun;
 
-public class RedlightGreenlight : MonoBehaviourPun
+public class RedlightGreenlight : MonoBehaviourPunCallbacks
 {
     public bool currentEquationCorrect = false;
-    private bool gameStarted;
+    public bool gameStarted = false;
     private float stateTimer;
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private EquationController equationController;
+    [SerializeField] private TableManager tableManager;
     [SerializeField] private Equation currentEquation;
+    [SerializeField] private Button startButton;
 
     //TODO replace this preset list with randomisation
     private List<Equation> tempEquations = new List<Equation>()
     {
-        new Equation(1, Equation.Operator.Multiply, 1, 1),
-        new Equation(2, Equation.Operator.Multiply, 3, 8),
-        new Equation(4, Equation.Operator.Multiply, 5, 12),
-        new Equation(6, Equation.Operator.Multiply, 7, 42),
+        new Equation(1, Equation.Operator.Keer, 1, 1),
+        new Equation(2, Equation.Operator.Keer, 3, 8),
+        new Equation(4, Equation.Operator.Keer, 5, 12),
+        new Equation(6, Equation.Operator.Keer, 7, 42),
     };
 
     private int currentEquationIndex = 0;
 
     public void StartGame()
     {
-        gameStarted = true;
+        photonView.RPC("StartGameRPC", RpcTarget.All);
+    }
+
+    public override void OnCreatedRoom()
+    {
+        startButton.gameObject.SetActive(true);
     }
 
     private void Update()
@@ -52,6 +59,13 @@ public class RedlightGreenlight : MonoBehaviourPun
     }
 
     [PunRPC]
+    private void StartGameRPC()
+    {
+        gameStarted = true;
+        tableManager.EnableTable(1);
+    }
+
+    [PunRPC]
     private void UpdateEquation(int number1, Equation.Operator _operator, int number2, int answer)
     {
         currentEquation = new Equation(number1, _operator, number2, answer);
@@ -64,7 +78,7 @@ public class RedlightGreenlight : MonoBehaviourPun
             currentEquationCorrect = false;
         }
 
-        string textToSpeak = number1.ToString() + _operator.ToString() + number2.ToString();
+        string textToSpeak = number1.ToString() + _operator.ToString() + number2.ToString() + " is " + answer;
         StartCoroutine(CallTextToSpeech(textToSpeak));
     }
 
