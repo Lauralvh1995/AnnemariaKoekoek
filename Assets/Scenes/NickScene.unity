@@ -281,10 +281,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 786270579}
-  - component: {fileID: 786270578}
+  - component: {fileID: 786270581}
   - component: {fileID: 786270580}
+  - component: {fileID: 786270578}
   m_Layer: 0
-  m_Name: GyroDetection
+  m_Name: MovementDetection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -299,10 +300,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 786270577}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ca4f638c132cb74d8d6d82a44edb10d, type: 3}
+  m_Script: {fileID: 11500000, guid: 35fe06ae926e65a40be4a3d252ca56d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainCamera: {fileID: 519420031}
+  currentAcceleration: {x: 0, y: 0, z: 0}
+  previousAcceleration: {x: 0, y: 0, z: 0}
+  currentMagnitude: 0
 --- !u!4 &786270579
 Transform:
   m_ObjectHideFlags: 0
@@ -326,7 +329,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 786270577}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bcc4cd3965ac1f4e915e19264a9b421, type: 3}
+  m_Script: {fileID: 11500000, guid: 927645618550ad944aad928d10bc9050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &786270581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 786270577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b8d05d14030a2d40bcb490156e97d1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gyroDetection: {fileID: 786270580}
+  accelDetection: {fileID: 786270578}
   MainCamera: {fileID: 519420031}

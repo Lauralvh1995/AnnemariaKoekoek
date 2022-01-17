@@ -8,10 +8,7 @@ public class GyroDetection : MonoBehaviour
 {
     private bool gyroEnabled;
     private Gyroscope gyro;
-    [SerializeField]
-    private Camera MainCamera;
-
-    private float shakeSpeed = 0.2f;
+    [SerializeField] private float shakeSpeed = 1.0f;
 
     private float currentRotationRateX;
     private float currentRotationRateY;
@@ -67,9 +64,13 @@ public class GyroDetection : MonoBehaviour
 
     public bool IsMoving()
     {
-        if (currentRotationRateX > shakeSpeed || currentRotationRateY > shakeSpeed || currentRotationRateZ > shakeSpeed)
+        if (gyroEnabled)
         {
-            return true;
+            if (currentRotationRateX > shakeSpeed || currentRotationRateY > shakeSpeed || currentRotationRateZ > shakeSpeed)
+            {
+                return true;
+            }
+            return false;
         }
         return false;
     }

@@ -4,18 +4,21 @@ using UnityEngine;
 
 public class MovementChecker : MonoBehaviour
 {
-    GyroDetection gyroDetection;
-    AccelDetection accelDetection;
+    [SerializeField]
+    private GyroDetection gyroDetection;
+    [SerializeField]
+    private AccelDetection accelDetection;
+    [SerializeField]
+    private Camera MainCamera;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        gyroDetection = new GyroDetection();
-        accelDetection = new AccelDetection();
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
     }
 

@@ -3,9 +3,10 @@ using UnityEngine.InputSystem;
 
 public class AccelDetection : MonoBehaviour
 {
-    [SerializeField] Vector3 currentAcceleration;
-    [SerializeField] Vector3 previousAcceleration;
-    [SerializeField] float currentMagnitude;
+    [SerializeField] private Vector3 currentAcceleration;
+    [SerializeField] private Vector3 previousAcceleration;
+    [SerializeField] private float currentMagnitude;
+    [SerializeField] private float shakeSpeed = 1.0f;
     private void OnEnable()
     {
         Debug.Log("Enabling accelerometer");
@@ -43,6 +44,6 @@ public class AccelDetection : MonoBehaviour
 
     public bool IsMoving()
     {
-        return currentMagnitude > 1.5f;
+        return currentMagnitude > shakeSpeed;
     }
 }
