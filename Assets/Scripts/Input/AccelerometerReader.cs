@@ -40,4 +40,9 @@ public class AccelerometerReader : MonoBehaviour
     {
         return previousAcceleration - currentAcceleration;
     }
+
+    public bool IsMoving()
+    {
+        return currentMagnitude > 1.5f;
+    }
 }
