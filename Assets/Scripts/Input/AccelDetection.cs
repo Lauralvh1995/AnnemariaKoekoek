@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class AccelerometerReader : MonoBehaviour
+public class AccelDetection : MonoBehaviour
 {
     [SerializeField] Vector3 currentAcceleration;
     [SerializeField] Vector3 previousAcceleration;
