@@ -6,6 +6,10 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private RedlightGreenlight redlightGreenlight;
+    [SerializeField]
+    private MovementChecker movementChecker;
+    [SerializeField]
+    private LED led;
     private int points;
     private enum PlayerState
     {
@@ -20,20 +24,23 @@ public class Player : MonoBehaviour
         switch (playerState)
         {
             case PlayerState.STARTING:
+                if(redlightGreenlight.gameStarted)
+                {
+                    Return();
+                }
                 break;
             case PlayerState.PLAYING:
-                //TODO replace the false with a check if the player is moving
-                if (!redlightGreenlight.currentEquationCorrect && false)
+                if (!redlightGreenlight.currentEquationCorrect && movementChecker.IsPlayerMoving())
                 {
                     Handheld.Vibrate();
+                    led.Lose();
                     playerState = PlayerState.RETURNING;
                 }
 
                 //TODO add check for if player is close enough to the finish
                 if (false)
                 {
-                    points++;
-                    playerState = PlayerState.RETURNING;
+                    Finish();
                 }
 
                 break;
@@ -41,11 +48,26 @@ public class Player : MonoBehaviour
                 //TODO add check if player is close enough to start
                 if(false)
                 {
-                    playerState = PlayerState.PLAYING;
+                    Return();
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    //public for mocking purposes
+    public void Finish()
+    {
+        points++;
+        led.Win();
+        playerState = PlayerState.RETURNING;
+    }
+
+    //public for mocking purposes
+    public void Return()
+    {
+        led.StartGame();
+        playerState = PlayerState.PLAYING;
     }
 }
