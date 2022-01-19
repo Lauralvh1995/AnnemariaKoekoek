@@ -45,11 +45,9 @@ public class RedlightGreenlight : MonoBehaviourPunCallbacks
         else
         {
             stateTimer += Time.deltaTime;
-            if (stateTimer > 3)
+            if (stateTimer > 4)
             {
                 stateTimer = 0;
-
-                //This loops through the preset equations. Use a randomiser instead asap
 
                 Equation eq = equationController.SetUpNewEquation();
 
@@ -69,7 +67,17 @@ public class RedlightGreenlight : MonoBehaviourPunCallbacks
     private void UpdateEquation(int number1, Equation.Operator _operator, int number2, int answer)
     {
         currentEquation = new Equation(number1, _operator, number2, answer);
-        if(currentEquation.Answer == currentEquation.Equals())
+        StartCoroutine(UpdateEquationCorrectAfterDelay(currentEquation));
+
+        string textToSpeak = number1.ToString() + _operator.ToString() + number2.ToString() + " is " + answer;
+        StartCoroutine(CallTextToSpeech(textToSpeak));
+    }
+
+    private IEnumerator UpdateEquationCorrectAfterDelay(Equation currentEquation)
+    {
+        yield return new WaitForSeconds(2);
+
+        if (currentEquation.Answer == currentEquation.Equals())
         {
             currentEquationCorrect = true;
         }
@@ -77,9 +85,6 @@ public class RedlightGreenlight : MonoBehaviourPunCallbacks
         {
             currentEquationCorrect = false;
         }
-
-        string textToSpeak = number1.ToString() + _operator.ToString() + number2.ToString() + " is " + answer;
-        StartCoroutine(CallTextToSpeech(textToSpeak));
     }
 
     private IEnumerator CallTextToSpeech(string spokenText)
