@@ -6,7 +6,8 @@ public class AccelDetection : MonoBehaviour
     [SerializeField] private Vector3 currentAcceleration;
     [SerializeField] private Vector3 previousAcceleration;
     [SerializeField] private float currentMagnitude;
-    [SerializeField] private float shakeSpeed = 1.0f;
+    [SerializeField] private float shakeSpeed = 1.5f;
+
     private void OnEnable()
     {
         Debug.Log("Enabling accelerometer");
@@ -19,8 +20,19 @@ public class AccelDetection : MonoBehaviour
         InputSystem.DisableDevice(Accelerometer.current);
     }
 
+    private bool AccelSupport()
+    {
+        if (SystemInfo.supportsAccelerometer)
+        {
+            return true;
+        }
+        return false;
+    }
+
     private void Update()
     {
+        if (AccelSupport())
+        { 
         previousAcceleration = currentAcceleration;
         currentAcceleration = Accelerometer.current.acceleration.ReadValue();
         currentMagnitude = currentAcceleration.magnitude;
@@ -28,6 +40,7 @@ public class AccelDetection : MonoBehaviour
         Debug.Log("Current Acceleration: " + currentAcceleration + "\n" +
             "Current Magnitude: " + currentMagnitude + "\n" +
             "Acceleration delta: " + (previousAcceleration - currentAcceleration).ToString());
+    }
     }
     public Vector3 GetCurrentAcceleration()
     {

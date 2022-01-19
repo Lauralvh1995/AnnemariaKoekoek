@@ -24,7 +24,7 @@ public class MovementChecker : MonoBehaviour
 
     public bool IsPlayerMoving()
     {
-        if(gyroDetection.IsMoving() || accelDetection.IsMoving())
+        if(accelDetection.IsMoving() || gyroDetection.IsMoving())
         {
             return true;
         }

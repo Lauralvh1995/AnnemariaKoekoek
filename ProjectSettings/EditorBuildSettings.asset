@@ -5,10 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Scenes/TeunScene.unity
-    guid: c024ac29e538e2748ab557158d394d73
+    guid: ed56365e7d947094a9e022c2ad19237f
   m_configObjects: {}
